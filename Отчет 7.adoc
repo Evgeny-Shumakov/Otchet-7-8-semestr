@@ -2,140 +2,169 @@
 
 :imagesdir: 7 pic
 
-[#image-f1]
+[#image-Класс ADC]
 .Создание классов и атрибутов
-image::f1.jpg[]
+image::ADC.png[]
 
 *Класс АЦП:*
-[source,]
-----
-void Start()
-  {
-  RCC::CR::HSEON::On::Set();
-  while(!RCC::CR::HSERDY::Ready::IsSet())
-  {};
-  RCC::CFGR::SW::Hse::Set();
-  while (!RCC::CFGR::SWS::Hse::IsSet())
-  {};
-  RCC::APB2ENR::ADC1EN::Enable::Set();
-  ADC1::CR2::ADON::Enable::Set();
-  }
-  void Temp()
-  {
-   ADC_Common::CCR::Temp::Enable::Set();
-   ADC1::CR1::RES::Bits10::Set();
-  ADC1::CR2::CONT::SingleConversion::Set();
-  ADC1::CR2::EOCS::SingleConversion::Set();
-  }
-  void Voltage()
-  {
-  RCC::AHB1ENR::GPIOAEN::Enable::Set();
-  GPIOA::MODER::MODER0::Analog::Set();
-  ADC1::CR1::RES::Bits10::Set();
-  ADC1::CR2::CONT::SingleConversion::Set();
-  ADC1::CR2::EOCS::SingleConversion::Set();
-  }
-}
-;
-
-----
-
-Класс датчика температуры
 
 [source,]
 ----
-void SensorT()
-  {
-  ADC1::SQR1::L::Conversions2::Set();
-  ADC1::SQR3::SQ1::Channel17::Set();
-  ADC1::SQR3::SQ2::Channel18::Set();
-  ADC1::SMPR1::SMP17::Cycles84::Set();
-  ADC1::SMPR1::SMP18::Cycles84::Set();
-  ADC1::CR1::SCAN::Enable::Set();
-   constexpr size_t tempAddr = 0x1FFF7A2C;
-   constexpr size_t temp2Addr =  0x1FFF7A2E;
-   constexpr size_t VoltAddr =  0x1FFF7A2A;
-   volatile uint16_t *tempPointer = reinterpret_cast<volatile uint16_t*>(tsCal1Addr) ;
-   volatile uint16_t *temp2Pointer = reinterpret_cast<volatile uint16_t*>(tsCal2Addr) ;
-   uint16_t tsCal132 = (*temp1Pointer);
-   uint16_t tsCal232 = (*temp2Pointer);
-   float temp1 = temp32;
-   float temp2 = temp232;
-   volatile uint16_t *VoltPointer = reinterpret_cast<volatile uint16_t*>(VoltAddr) ;
-   uint16_t Volt32 = (*VoltPointer);
-   float Volt = Volt32;
-   uint32_t ADC_Code = 0U ; //for getting reference voltage data from ADC
-   uint32_t Volt = 0U ; //for getting reference voltage data from ADC
-   float temperature = 0.0F ;
-    float DEGREE_30 = 30.0F;
-    ADC1::CR2::SWSTART::On::Set();
-    while(!ADC1::SR::EOC::ConversionComplete::IsSet())
-    {};
-    Vdda =  ADC1::DR::Get();
-    while(!ADC1::SR::EOC::ConversionComplete::IsSet())
-    {};
-    ADC_Code =  ADC1::DR::Get();
-    temperature = ADC_Code * (110-30)*Volt/(Volt*(temp2-temp1)) + DEGREE_30 - (110-30)*temp/(temp2-temp1) ; //Convert ADC counts to temperature
-    cout << "\nTemperature: " << temperature << endl ;
-  }
-}
-;
-----
-
-
-[source,]
-----
-class SensorV
+class ADC
 {
 public:
-  void Code()
+  
+  static void Start()
   {
-  ADC1::SQR1::L::Conversions1::Set();
-  ADC1::SQR3::SQ1::Channel0::Set();
-  ADC1::SMPR2::SMP0::Cycles84::Set();
-  std::uint32_t data = 0U ;
-  ADC1::CR2::SWSTART::On::Set();
-  while(!ADC1::SR::EOC::ConversionComplete::IsSet())
- {};
-  data =   ADC1::DR::Get(); //Get data from ADC;
-  cout << "\nVoltage data from ADC " << data << endl ;
+   T::CR2::SWSTART::On::Set(); //Start conversion
   }
-  void Voltage()
+    
+  static void On()
   {
-  ADC1::SQR1::L::Conversions1::Set();
-  ADC1::SQR3::SQ1::Channel0::Set();
-  ADC1::SMPR2::SMP0::Cycles84::Set();
-  constexpr float B2 = 0 ;//25.0F - 0.76F/0.0025F ;// see datacheet (page 226) and calculate B coeficient here ;
-  constexpr float K2 = 3.3F/4096 ;//3.3F/(1024.0F*0.0025F); // see datcheet  (page 226) and calculate K coeficient here ;
-  std::uint32_t data = 0U ;
-  float voltage = 0.0F ;
-  ADC1::CR2::SWSTART::On::Set();
-  while(!ADC1::SR::EOC::ConversionComplete::IsSet())
- {};
-  data =   ADC1::DR::Get(); //Get data from ADC;
-  voltage = data * K2 + B2 ; //Convert ADC counts to temperature
-  cout << "\nVoltage: " << voltage << endl ;
+   T::CR2::ADON::Enable::Set(); // Enable ADC1
   }
-}
-;
+    
+  static void Off()
+  {
+   T::CR2::ADON::Disable::Set();
+  }
+    
+  static bool IsReady()
+  {
+   return T::SR::EOC::ConversionComplete::IsSet();
+  }
+    
+  static std::uint32_t Get()
+  {
+    return T::DR::Get();
+  }
+  ///////Включение светодиодов/////////////
+  
+  static void Config(Resolution resolution)
+  {
+    switch(resolution)
+    {
+    case Resolution::Bits12:
+      T::CR1::RES::Bits12::Set();
+      break;
+      
+      case Resolution::Bits10:
+      T::CR1::RES::Bits10::Set();
+      break;
+      
+      case Resolution::Bits8:
+      T::CR1::RES::Bits8::Set();
+      break;
+      
+      case Resolution::Bits6:
+      T::CR1::RES::Bits6::Set();
+      break;
+      
+      default:
+      T::CR1::RES::Bits12::Set();
+      break;
+    }
+  }
+  /////Подключение нескольких каналов,а не одного////
+  
+  static void SetChannels (std::uint32_t channelNum1, std::uint32_t channelNum2)
+   
+    {
+      T::SQR1::L::Conversions2::Set();
+      T::CR1::SCAN::Enable::Set();
+      T::CR2::EOCS::SingleConversion::Set();
+      T::CR2::CONT::SingleConversion::Set();
+      assert(channelNum1 <19);
+      assert(channelNum2 <19);
+      T::SQR3::SQ1::Set(channelNum1);
+      T::SQR3::SQ2::Set(channelNum2);
+    }  
+};
+
 ----
+Так как у созданых нами классов Voltage и Temperature есть общие атрибуты. Создадим общий класс объединяющий эти параметры *(IVaraible)*.
+
+*Класс IVaraible*
+[#image-Класс IVaraible]
+.Класс IVaraible
+image::IVaraible.png[]
+
+После объединения получаем:
+[#image-VT]
+.Класс Ivaraible (продолжение)
+image::VT.png[]
+
+Код программы:
+[source,]
+----
+#ifndef IVARIABLE_HPP
+#define IVARIABLE_HPP
+
+class IVariable
+{
+private:
+  const float A3 = 0.0F;
+  const float B3 = 0.0F;
+  float Value = 0.0F;  
+
+  const char* Name = "Variable       " ; 
+public:
+  IVariable(float A, float B, const char* str): A2(A), B2(B), Name(str) 
+  {
+  };
+   
+  float GetValue()
+  {
+    return Value ;
+  }
+  
+  virtual void Calculate(uint32_t code)
+  {
+     Value = code * A1 + B1 ;//
+  }
+  
+  const char* GetName()
+  {
+     return Name;
+  }
+  
+};
+----
+
+*Класс Voltage*
+
+[#image-Класс Voltage]
+.Класс Voltage
+image::Voltage.png[]
 
 [source,]
 ----
-int main()
+#include "IVariable.hpp"
+
+class Voltage : public IVariable
 {
-  ADC ADC1;
-  ADC1.Start();
-  ADC1.Temp();
-  ADC1.Volt();
-  SensorT Sensor1;
-  Sensor1.Temperature();
-  Sensor1.Code();
-  SensorV Sensor2;
-  Sensor2.Code();
-  Sensor2.Voltage();
-  return 0;
-}
+public:
+  Voltage(float A2, float B): IVariable(A, B, "Voltage") {} ;
+};
+----
+
+*Класс Temperature*
+
+[#image-Класс Voltage]
+.Класс Temperature
+image::Temperature.png[]
+
+Код Программы:
+[source,]
+----
+#include "IVariable.hpp"
+
+class Temperature : public IVariable
+{
+  public:
+  Temperature(float A2, float B2): IVariable(A1, B1, "Temperature") {} ;
+
+};
 ----
 
 [.red.background.]

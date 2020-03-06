@@ -2757,6 +2757,15 @@
         </file>
     </group>
     <file>
+        <name>$PROJ_DIR$\ADC.hpp</name>
+    </file>
+    <file>
         <name>$PROJ_DIR$\main.cpp</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\Temper.hpp</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\Voltag.hpp</name>
     </file>
 </project>

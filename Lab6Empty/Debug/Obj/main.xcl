@@ -1,28 +1,28 @@
-"M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\main.cpp"
+"C:\Users\AAA\Desktop\Lab6Empty\main.cpp"
 -std=c++17
 -ferror-limit=0
 -fbracket-depth=512
 -MD
 -MF
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\Debug\Obj\main.pbi.dep
+C:\Users\AAA\Desktop\Lab6Empty\Debug\Obj\main.pbi.dep
 -o
 main.pbi
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty
+C:\Users\AAA\Desktop\Lab6Empty
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty
+C:\Users\AAA\Desktop\Lab6Empty
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\AbstractHardware\Registers
+C:\Users\AAA\Desktop\Lab6Empty\AbstractHardware\Registers
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\AbstractHardware\Registers\STM32F411
+C:\Users\AAA\Desktop\Lab6Empty\AbstractHardware\Registers\STM32F411
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\AbstractHardware\Registers\STM32F411\FieldValues
+C:\Users\AAA\Desktop\Lab6Empty\AbstractHardware\Registers\STM32F411\FieldValues
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\Common
+C:\Users\AAA\Desktop\Lab6Empty\Common
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\AbstractHardware\Atomic
+C:\Users\AAA\Desktop\Lab6Empty\AbstractHardware\Atomic
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\Common\Observer
+C:\Users\AAA\Desktop\Lab6Empty\Common\Observer
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\inc
 -I
@@ -30,19 +30,19 @@ C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\inc\c
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\inc\cpp
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty
+C:\Users\AAA\Desktop\Lab6Empty
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\AbstractHardware\Registers
+C:\Users\AAA\Desktop\Lab6Empty\AbstractHardware\Registers
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\AbstractHardware\Registers\STM32F411
+C:\Users\AAA\Desktop\Lab6Empty\AbstractHardware\Registers\STM32F411
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\AbstractHardware\Registers\STM32F411\FieldValues
+C:\Users\AAA\Desktop\Lab6Empty\AbstractHardware\Registers\STM32F411\FieldValues
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\Common
+C:\Users\AAA\Desktop\Lab6Empty\Common
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\AbstractHardware\Atomic
+C:\Users\AAA\Desktop\Lab6Empty\AbstractHardware\Atomic
 -I
-M:\POIP+ПД\Работы на 8 семестр\Lab6Empty\Common\Observer
+C:\Users\AAA\Desktop\Lab6Empty\Common\Observer
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0
